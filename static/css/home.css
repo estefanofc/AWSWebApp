@@ -1,0 +1,65 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: #f3f2da;
+}
+
+h1 {
+    color: #222831;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 40pt;
+    clear: right;
+    line-height: 1;
+}
+
+h2 {
+    color: #393e46;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 20pt;
+    clear: right;
+    line-height: 1;
+}
+
+h3 {
+    color: #045762;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    font-size: 15pt;
+    clear: right;
+    line-height: 1;
+}
+
+input {
+    font-family: 'Open Sans', sans-serif;
+    margin-top: 0px;
+    margin-bottom: 30px;
+    background: none;
+    color: black;
+    border-bottom: 1px solid black;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 200px;
+    height: 30px;
+}
+
+button {
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+    background: #bcbdc0;
+    width: 70px;
+    height: 30px;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: none;
+}
+p {
+    font-family: 'Open Sans', sans-serif;
+    margin: 10px auto;
+    max-width: 1000px;
+    border: solid 2px #393e46;
+    padding: 12px;
+}
