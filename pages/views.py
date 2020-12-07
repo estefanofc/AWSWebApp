@@ -1,8 +1,9 @@
-from django.views.generic import TemplateView
 import boto3
 import os
 import requests
 from django.shortcuts import redirect
+from django.urls import reverse
+from django.views.generic import TemplateView
 
 
 class HomePageView(TemplateView):
@@ -32,7 +33,7 @@ def load(request):
             print(bucket_name + ' created!')
         except Exception as e:
             print(e)
-            return redirect('/')
+            return redirect(reverse('home'))
     # upload object
     s3.Object(bucket_name,
               f_name).put(Body=open(os.path.join(full_path, f_name), 'rb'))
@@ -40,9 +41,9 @@ def load(request):
     print("Uploading File: " + "\t" + os.path.join(full_path, f_name))
     file.close()
 
-    return redirect('/')
+    return redirect(reverse('home'))
 
 
 def clear(request):
     print("CLEAR")
-    return redirect('/')
+    return redirect(reverse('home'))
