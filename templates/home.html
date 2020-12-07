@@ -33,11 +33,11 @@
         <h3>This website's data is provided by https://s3-us-west-2.amazonaws.com/css490/input.txt</h3>
         <form action="/load/" method="POST">
             {% csrf_token %}
-            <button type="submit" data_url>LOAD</button>
+            <button onClick="alertLoad()" type="submit" data_url>LOAD</button>
         </form>
         <form action="/clear/" method="POST">
             {% csrf_token %}
-            <button type="submit" data_url>CLEAR</button>
+            <button onClick="alertClear()" type="submit" data_url>CLEAR</button>
         </form>
     </div>
     <!-- JavaScript -->
