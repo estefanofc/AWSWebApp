@@ -22,8 +22,14 @@
     <div class="management">
         <h2>Manage Data</h2>
         <h3>This website's data is provided by https://s3-us-west-2.amazonaws.com/css490/input.txt</h3>
-        <button type="button">LOAD</button>
-        <button type="button">CLEAR</button>
+        <form action="/load/" method="POST">
+            {% csrf_token %}
+            <button type="submit" data_url>LOAD</button>
+        </form>
+        <form action="/clear/" method="POST">
+            {% csrf_token %}
+            <button type="submit" data_url>CLEAR</button>
+        </form>
     </div>
     <!-- JavaScript -->
     {% block javascript %}
