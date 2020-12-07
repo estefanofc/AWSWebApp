@@ -55,5 +55,25 @@ def load(request):
 
 
 def clear(request):
-    print("CLEAR")
+    # Connect to bucket
+    bucket_name = 'program4bucket'
+    s3 = boto3.resource(
+        's3',
+        region_name='us-west-1',
+        aws_access_key_id=AWS_ACCESS_KEY,
+        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    )
+    b_exists = s3.Bucket(bucket_name).creation_date is not None
+    if not b_exists:
+        try:
+            s3.create_bucket(
+                Bucket=bucket_name,
+                CreateBucketConfiguration={'LocationConstraint': 'us-west-1'})
+            print(bucket_name + ' created!')
+        except Exception as e:
+            print(e)
+            return redirect(reverse('home'))
+    # delete s3 object
+    bucket = s3.Bucket(bucket_name)
+    bucket.objects.all().delete()
     return redirect(reverse('home'))
