@@ -1,9 +1,14 @@
 import boto3
 import os
 import requests
+
+from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
+
+AWS_ACCESS_KEY = settings.AWS_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY = settings.AWS_SECRET_ACCESS_KEY
 
 
 class HomePageView(TemplateView):
@@ -23,7 +28,12 @@ def load(request):
     # Connect to bucket
     bucket_name = 'program4bucket'
     full_path = os.getcwd()
-    s3 = boto3.resource('s3')
+    s3 = boto3.resource(
+        's3',
+        region_name='us-west-1',
+        aws_access_key_id=AWS_ACCESS_KEY,
+        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    )
     b_exists = s3.Bucket(bucket_name).creation_date is not None
     if not b_exists:
         try:
