@@ -14,10 +14,19 @@
 
     <div class="search">
         <h2>Query Data</h2>
-        <input type="text" placeholder="First Name" id="searchFirstName">
-        <input type="text" placeholder="Last Name" id="searchLastName">
-        <button id="btnSearch" type="button"><i class="fa fa-search"></i></button>
-        <p id="par">No data available at the moment</p>
+        <form action=/query/ method="POST">
+            <input type="text" placeholder="First Name" name="first_name">
+            <input type="text" placeholder="Last Name" name="last_name">
+            {% csrf_token %}
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+
+        <p id="par">
+            {% block includes %}
+            {{ content }}
+            {% endblock includes %}
+        </p>
+
     </div>
     <div class="management">
         <h2>Manage Data</h2>

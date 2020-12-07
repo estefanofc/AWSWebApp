@@ -3,10 +3,12 @@ import os
 from django.utils.functional import keep_lazy
 import requests
 
+from boto3.dynamodb.conditions import Key
 from django.conf import settings
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import TemplateView
+from django.template.response import TemplateResponse
 
 AWS_ACCESS_KEY = settings.AWS_ACCESS_KEY
 AWS_SECRET_ACCESS_KEY = settings.AWS_SECRET_ACCESS_KEY
@@ -131,3 +133,49 @@ def clear(request):
             })
 
     return redirect(reverse('home'))
+
+
+def query(request):
+    table_name = 'program4table'
+    dynamodb = boto3.resource(
+        'dynamodb',
+        region_name='us-west-1',
+        aws_access_key_id=AWS_ACCESS_KEY,
+        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    )
+    table = dynamodb.Table(table_name)
+    first_name = request.POST.get('first_name', 'default1')
+    last_name = request.POST.get('last_name', 'default2')
+    map = {}
+    if first_name == '' and last_name == '':
+        map['content'] = 'Please fill out at least one field'
+        return TemplateResponse(request, 'home.html', map)
+    if first_name == '':
+        try:
+            map['content'] = table.query(
+                KeyConditionExpression=Key('last_name').eq(last_name)).get(
+                    'Items', {})
+        except Exception as e:
+            map['content'] = str(e)
+        if not map['content']:
+            map['content'] = 'No data matching query found'
+        return TemplateResponse(request, 'home.html', map)
+    if last_name == '':
+        try:
+            map['content'] = table.query(
+                IndexName='first_name-last_name-index',
+                KeyConditionExpression=Key('first_name').eq(first_name)).get(
+                    'Items', {})
+        except Exception as e:
+            map['content'] = str(e)
+        if not map['content']:
+            map['content'] = 'No data matching query found'
+        return TemplateResponse(request, 'home.html', map)
+
+    map['content'] = table.get_item(Key={
+        'last_name': last_name,
+        'first_name': first_name,
+    }).get('Item', {})
+    if not map['content']:
+        map['content'] = 'No data matching query found'
+    return TemplateResponse(request, 'home.html', map)
